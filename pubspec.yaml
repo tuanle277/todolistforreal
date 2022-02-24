@@ -80,6 +80,14 @@ flutter:
       fonts:
         - asset: assets/fonts/GreatVibes-Regular.otf
         - weight: 700
+    - family: Georgia
+      fonts:
+        - asset: assets/fonts/Georgia.ttf
+        - asset: assets/fonts/Georgia Regular font.ttf
+        - asset: assets/fonts/georgia bold.ttf
+          weight: 700
+        - asset: assets/fonts/georgia italic.ttf
+          style: italic
     - family: QuickSand
       fonts:
         - asset: assets/fonts/Quicksand-Regular.ttf

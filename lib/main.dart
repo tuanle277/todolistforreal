@@ -11,6 +11,8 @@ import 'widgets/screens/to_do_screen.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -96,8 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
     backgroundColor = backgroundColorChosen;
-    print(colorChoosingArray[index]);
-    print(colorChoosingArrayColor[index]);
   }
 
   CategoryItem initialCategoryItem = _listOfCategoryItems.first;
@@ -150,12 +150,10 @@ class _MyHomePageState extends State<MyHomePage> {
   final _descriptionController = TextEditingController();
 
   void _submitData() {
-    if (_titleController.text.isEmpty && _descriptionController.text.isEmpty) {
+    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty) {
       return;
     }
-
     print('did it');
-
     final enteredTitle = _titleController.text;
     final enteredDescription = _descriptionController.text;
     bool? isChecked = false;
@@ -191,8 +189,6 @@ class _MyHomePageState extends State<MyHomePage> {
         //     ? _listOfBackgroundItems.first.iconColor
         //     : backgroundColor,
         );
-    print(backgroundColor);
-
     setState(
       () {
         _listOfToDo.add(newTd);
@@ -230,7 +226,6 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       MaterialPageRoute(
         builder: (context) => CreateTaskScreen(
-          backgroundColor: backgroundColor,
           colorChangingArrayColor: colorChoosingArrayColor,
           changeColorOnTap: changeColorOnTap,
           titleController: _titleController,
@@ -242,11 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
-    setState(
-      () {
-        backgroundColor = toCreateTask;
-      },
-    );
+    backgroundColor = toCreateTask;
   }
 
   // DateTime _selectedDate = DateTime.now();

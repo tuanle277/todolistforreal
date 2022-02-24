@@ -12,6 +12,7 @@ class ListOfToDo extends StatefulWidget {
 }
 
 class _ListOfToDoState extends State<ListOfToDo> {
+  final double leftPaddingTitleAndDescription = 16;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,7 +39,10 @@ class _ListOfToDoState extends State<ListOfToDo> {
           ),
           child: const Text(
             "My Tasks",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
             textAlign: TextAlign.start,
           ),
         ),
@@ -59,11 +63,11 @@ class _ListOfToDoState extends State<ListOfToDo> {
                   ),
                   margin: const EdgeInsets.symmetric(
                     horizontal: 8,
-                    vertical: 4,
+                    vertical: 7,
                   ),
                   child: InkWell(
                     child: Container(
-                      height: 100,
+                      height: 65,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(
                           Radius.circular(200),
@@ -92,9 +96,9 @@ class _ListOfToDoState extends State<ListOfToDo> {
                               // ),
                               Container(
                                 margin: const EdgeInsets.only(left: 9),
-                                padding: const EdgeInsets.only(
-                                  top: 14,
-                                  left: 12,
+                                padding: EdgeInsets.only(
+                                  top: 8,
+                                  left: leftPaddingTitleAndDescription,
                                 ),
                                 width: 230,
                                 child: Text(
@@ -111,9 +115,9 @@ class _ListOfToDoState extends State<ListOfToDo> {
                               ),
                               Container(
                                 margin: const EdgeInsets.only(left: 9),
-                                padding: const EdgeInsets.only(
-                                  top: 12,
-                                  left: 12,
+                                padding: EdgeInsets.only(
+                                  top: 5,
+                                  left: leftPaddingTitleAndDescription,
                                 ),
                                 width: 230,
                                 child: Text(

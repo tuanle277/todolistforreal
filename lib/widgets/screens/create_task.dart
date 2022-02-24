@@ -8,7 +8,7 @@ class CreateTaskScreen extends StatefulWidget {
   final TextEditingController descriptionController;
   final Function changeColorOnTap;
 
-  Color backgroundColor;
+  // Color backgroundColor;
 
   List<BackgroundItem> listOfBackgroundItems;
   final List colorChoosingArray;
@@ -19,7 +19,6 @@ class CreateTaskScreen extends StatefulWidget {
 
   CreateTaskScreen(
       {required this.colorChoosingArray,
-      required this.backgroundColor,
       required this.titleController,
       required this.colorChangingArrayColor,
       required this.changeColorOnTap,
@@ -33,7 +32,7 @@ class CreateTaskScreen extends StatefulWidget {
 
 class _CreateTaskScreenState extends State<CreateTaskScreen> {
   static List<bool> colorChoosingArray = [false, false, false];
-  Color backgroundColor = Colors.teal.shade100;
+  Color backgroundColor = Colors.black;
 
   void resetBorder() {
     setState(() {
@@ -45,21 +44,32 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
   void changeColorOnTap(int index) {
     // ignore: unrelated_type_equality_checks
-    if (colorChoosingArray.contains(true)) {
+    if (colorChoosingArray[index] == false &&
+        colorChoosingArray.contains(true)) {
+      resetBorder();
+      backgroundColor = widget.listOfBackgroundItems[index].initialColor;
+
       setState(() {
-        colorChoosingArray[0] = false;
-        colorChoosingArray[1] = false;
-        colorChoosingArray[2] = false;
         colorChoosingArray[index] = true;
       });
     } else if (colorChoosingArray[index] == true) {
-      setState(() {
-        colorChoosingArray[index] = false;
-      });
+      setState(
+        () {
+          colorChoosingArray[index] = false;
+        },
+      );
     } else {
+      backgroundColor = widget.listOfBackgroundItems[index].initialColor;
+      resetBorder();
       setState(() {
         colorChoosingArray[index] = true;
       });
+
+      setState(
+        () {
+          colorChoosingArray[index] = true;
+        },
+      );
     }
     print(colorChoosingArray[index]);
     print(widget.colorChangingArrayColor[index]);
@@ -219,8 +229,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                           InkWell(
                             borderRadius: BorderRadius.circular(30),
                             onTap: () {
-                              backgroundColor =
-                                  widget.listOfBackgroundItems[0].initialColor;
                               changeColorOnTap(0);
                             },
                             child: Container(
@@ -277,8 +285,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                               ),
                             ),
                             onTap: () {
-                              backgroundColor =
-                                  widget.listOfBackgroundItems[1].initialColor;
                               changeColorOnTap(1);
                             },
                           ),
@@ -310,8 +316,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                               ),
                             ),
                             onTap: () {
-                              backgroundColor =
-                                  widget.listOfBackgroundItems[2].initialColor;
                               changeColorOnTap(2);
                             },
                           ),

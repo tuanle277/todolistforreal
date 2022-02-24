@@ -119,15 +119,23 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(
-                              50,
-                            ),
-                            bottomRight: Radius.circular(
-                              50,
-                            ),
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(
+                            60,
                           ),
-                          color: Colors.teal[300]),
+                          bottomRight: Radius.circular(
+                            60,
+                          ),
+                        ),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.teal.shade600,
+                            Colors.green.shade400,
+                          ],
+                        ),
+                      ),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height + 100,
                     ),
@@ -137,46 +145,57 @@ class _ToDoScreenState extends State<ToDoScreen> {
               ),
               Positioned(
                 top: 85,
-                left: 45,
+                left: 100,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
+                    Container(
+                      width: 160,
+                      padding: const EdgeInsets.only(
+                        right: 80,
+                        top: 5,
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                            child: Container(
+                              // color: Colors.black,
+                              alignment: Alignment.center,
+                              child: Flexible(
+                                child: Text(
+                                  widget.enteredName,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 26,
+                                    fontFamily: 'Georgia',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                            ),
+                            child: Text(
+                              widget.enteredTitlee,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'Georgia',
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     const CircleAvatar(
                       radius: 50,
                       backgroundImage: AssetImage(
                         'assets/images/profile.jpeg',
                       ),
                       backgroundColor: Colors.transparent,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          width: 220,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 5,
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            widget.enteredName,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                          ),
-                          child: Text(
-                            widget.enteredTitlee,
-                            style: const TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
@@ -210,9 +229,10 @@ class _ToDoScreenState extends State<ToDoScreen> {
             ],
           ),
           GestureDetector(
-            child: const Padding(
-              padding: EdgeInsets.all(21),
-              child: Icon(
+            child: Padding(
+              padding:
+                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
+              child: const Icon(
                 Icons.menu,
                 color: Colors.black,
                 size: 27,
