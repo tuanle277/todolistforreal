@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import './models/to_do.dart';
 import './models/background_item.dart';
 import 'models/category_item.dart';
+import './widgets/screens/create_task.dart';
 
-import './widgets/to_do_screen.dart';
+import 'widgets/screens/to_do_screen.dart';
 
 //to do list with where, with whom, incorporates notification, order, flashcard, time, contact
 void main() => runApp(MyApp());
@@ -40,24 +41,64 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Icon chosenIcon = const Icon(Icons.ac_unit);
-  Color backgroundColor = Colors.black;
+  Color backgroundColor = Colors.teal.shade200;
 
   BackgroundItem initialBackgroundItem = _listOfBackgroundItems.first;
 
   static final List<BackgroundItem> _listOfBackgroundItems = [
     BackgroundItem(
       'Urgent',
-      Colors.red.shade200,
+      Colors.red.shade100,
+      Colors.red.shade400,
     ),
     BackgroundItem(
       'Mild Urgent',
-      Colors.yellow.shade200,
+      Colors.yellow.shade100,
+      Colors.yellow.shade400,
     ),
     BackgroundItem(
       'Not Urgent',
-      Colors.teal.shade200,
+      Colors.teal.shade100,
+      Colors.teal.shade400,
     )
   ];
+
+  static var colorChoosingArray = [false, false, false];
+
+  var colorChoosingArrayColor = [
+    colorChoosingArray[0] == false
+        ? _listOfBackgroundItems[0].initialColor
+        : _listOfBackgroundItems[0].chosenColor,
+    colorChoosingArray[1] == false
+        ? _listOfBackgroundItems[1].initialColor
+        : _listOfBackgroundItems[1].chosenColor,
+    colorChoosingArray[2] == false
+        ? _listOfBackgroundItems[2].initialColor
+        : _listOfBackgroundItems[2].chosenColor,
+  ];
+
+  void changeColorOnTap(int index, Color backgroundColorChosen) {
+    // ignore: unrelated_type_exquality_checks
+    if (colorChoosingArray.contains(true) == true) {
+      setState() {
+        colorChoosingArray[0] = false;
+        colorChoosingArray[1] = false;
+        colorChoosingArray[2] = false;
+      }
+    }
+    if (colorChoosingArray[index] == true) {
+      setState(() {
+        colorChoosingArray[index] = false;
+      });
+    } else {
+      setState(() {
+        colorChoosingArray[index] = true;
+      });
+    }
+    backgroundColor = backgroundColorChosen;
+    print(colorChoosingArray[index]);
+    print(colorChoosingArrayColor[index]);
+  }
 
   CategoryItem initialCategoryItem = _listOfCategoryItems.first;
 
@@ -88,36 +129,70 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<ToDo> _listOfToDo = [];
 
+  final _nameController = TextEditingController();
+  final _titleeController = TextEditingController();
+
+  String enteredName = 'Name';
+  String enteredTitlee = 'Title';
+
+  void _submitName() {
+    if (_nameController.text.isEmpty && _titleeController.text.isEmpty) {
+      return;
+    }
+
+    print('did it');
+
+    enteredName = _nameController.text;
+    enteredTitlee = _titleeController.text;
+  }
+
   final _titleController = TextEditingController();
-  final _howLongController = TextEditingController();
+  final _descriptionController = TextEditingController();
 
   void _submitData() {
-    if (_titleController.text.isEmpty && _howLongController.text.isEmpty)
+    if (_titleController.text.isEmpty && _descriptionController.text.isEmpty) {
       return;
+    }
+
+    print('did it');
 
     final enteredTitle = _titleController.text;
-    final enteredhowLong = _howLongController.text;
+    final enteredDescription = _descriptionController.text;
     bool? isChecked = false;
 
     _addNewToDo(
-        enteredTitle, enteredhowLong, isChecked, chosenIcon, backgroundColor);
+      enteredTitle,
+      enteredDescription,
+      backgroundColor,
+      //  isChecked, chosenIcon, backgroundColor
+    );
 
-    Navigator.of(context).pop();
+    // Navigator.push(context, MaterialPageRoute(builder: (context) =>  ToDoScreen(addNewElement: addNewElement, listOfToDo: listOfToDo, doneTd: doneTd)))
+    // Navigator.pop(context);
   }
 
-  void _addNewToDo(String title, String howLong, bool? isChecked,
-      Icon chosenIcon, Color backgroundColor) {
+  void _addNewToDo(
+      String title,
+      String description,
+      // bool? isChecked,
+      //     Icon chosenIcon,
+      Color backgroundColor) {
     final newTd = ToDo(
         id: DateTime.now().toString(),
         title: title,
-        icon: chosenIcon == const Icon(Icons.ac_unit)
-            ? _listOfCategoryItems.first.icon
-            : chosenIcon,
-        // howLong: howLong,
-        isChecked: isChecked,
-        backgroundColor: backgroundColor == Colors.black
-            ? _listOfBackgroundItems.first.icon_color
-            : backgroundColor);
+        description: description,
+        backgroundColor: backgroundColor
+        // icon: chosenIcon == const Icon(IconData(0xE037))
+        //     ? _listOfCategoryItems.first.icon
+        //     : chosenIcon,
+        // // howLong: howLong,
+        // isChecked: isChecked,
+        // backgroundColor: backgroundColor == Colors.black
+        //     ? _listOfBackgroundItems.first.iconColor
+        //     : backgroundColor,
+        );
+    print(backgroundColor);
+
     setState(
       () {
         _listOfToDo.add(newTd);
@@ -139,10 +214,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   : 'Congrats! You got everything done!',
               style: const TextStyle(
                 color: Colors.black,
-                fontWeight: FontWeight.bold,
                 fontFamily: 'times new roman',
                 fontSize: 20,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
         );
@@ -150,154 +225,212 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _addNewElement(BuildContext ctx) {
-    showModalBottomSheet(
-      isDismissible: true,
-      context: ctx,
-      isScrollControlled: true,
-      builder: (_) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.2,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  showCursor: true,
-                  textCapitalization: TextCapitalization.sentences,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'To do',
-                    icon: Icon(Icons.text_fields),
-                  ),
-                  controller: _titleController,
-                  onSubmitted: (_) => _submitData,
-                ),
-              ),
-              // Container(
-              //   padding: const EdgeInsets.all(10),
-              //   child: TextField(
-              //     textCapitalization: TextCapitalization.sentences,
-              //     decoration: const InputDecoration(
-              //       labelText: 'How long does it take?',
-              //       icon: Icon(
-              //         Icons.place,
-              //       ),
-              //     ),
-              //     controller: _howLongController,
-              //   ),
-              // ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  DropdownButton<CategoryItem>(
-                    onChanged: (CategoryItem? value) {
-                      initialCategoryItem = value!;
-                      setState(
-                        () {
-                          initialCategoryItem;
-                        },
-                      );
-                      chosenIcon = value.icon;
-                    },
-                    value: initialCategoryItem,
-                    items: _listOfCategoryItems
-                        .map<DropdownMenuItem<CategoryItem>>(
-                      (CategoryItem value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Row(
-                            children: [
-                              value.icon,
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                value.name,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ).toList(),
-                  ),
-                  DropdownButton<BackgroundItem>(
-                    onChanged: (BackgroundItem? value) {
-                      setState(
-                        () {
-                          initialBackgroundItem = value!;
-                        },
-                      );
-                      backgroundColor = value!.icon_color;
-                    },
-                    value: initialBackgroundItem,
-                    items: _listOfBackgroundItems
-                        .map<DropdownMenuItem<BackgroundItem>>(
-                      (BackgroundItem value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: value.icon_color,
-                                radius: 13,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(10),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                value.title,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ).toList(),
-                  ),
-                  SizedBox(
-                    height: 33,
-                    width: 110,
-                    child: ElevatedButton.icon(
-                      onPressed: _submitData,
-                      icon: const Icon(
-                        Icons.upload,
-                      ),
-                      label: const Text(
-                        'Submit',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-        // GestureDetector(
-        //   onTap: () {},
-        //   child:
-        //   behavior: HitTestBehavior.opaque,
-        // );
+  Future<void> _addNewElement(BuildContext ctx) async {
+    final toCreateTask = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreateTaskScreen(
+          backgroundColor: backgroundColor,
+          colorChangingArrayColor: colorChoosingArrayColor,
+          changeColorOnTap: changeColorOnTap,
+          titleController: _titleController,
+          submitData: _submitData,
+          descriptionController: _descriptionController,
+          listOfBackgroundItems: _listOfBackgroundItems,
+          colorChoosingArray: colorChoosingArray,
+        ),
+      ),
+    );
+
+    setState(
+      () {
+        backgroundColor = toCreateTask;
       },
     );
   }
 
-  final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  // DateTime _selectedDate = DateTime.now();
 
-  bool clicked = false;
+  // void _presentDatePicker() {
+  //   showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(2021),
+  //     lastDate: DateTime.now(),
+  //   ).then(
+  //     (pickedDate) {
+  //       if (pickedDate == null) {
+  //         return;
+  //       }
+  //       setState(
+  //         () {
+  //           _selectedDate = pickedDate;
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+
+  //   showModalBottomSheet(
+  //     enableDrag: true,
+  //     isDismissible: true,
+  //     context: ctx,
+  //     isScrollControlled: true,
+  //     builder: (_) {
+  //       return SizedBox(
+  //         height: MediaQuery.of(context).size.height * 0.2,
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: <Widget>[
+  //             Container(
+  //               padding: const EdgeInsets.all(10),
+  //               child: TextField(
+  //                 showCursor: true,
+  //                 textCapitalization: TextCapitalization.sentences,
+  //                 decoration: const InputDecoration(
+  //                   border: OutlineInputBorder(),
+  //                   labelText: 'To do',
+  //                   icon: Icon(Icons.text_fields),
+  //                 ),
+  //                 controller: _titleController,
+  //                 onSubmitted: (_) => _submitData,
+  //               ),
+  //             ),
+  //             // Container(
+  //             //   padding: const EdgeInsets.all(10),
+  //             //   child: TextField(
+  //             //     textCapitalization: TextCapitalization.sentences,
+  //             //     decoration: const InputDecoration(
+  //             //       labelText: 'How long does it take?',
+  //             //       icon: Icon(
+  //             //         Icons.place,
+  //             //       ),
+  //             //     ),
+  //             //     controller: _howLongController,
+  //             //   ),
+  //             // ),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //               children: <Widget>[
+  //                 DropdownButton<CategoryItem>(
+  //                   onChanged: (CategoryItem? value) {
+  //                     initialCategoryItem = value!;
+  //                     setState(
+  //                       () {
+  //                         initialCategoryItem;
+  //                       },
+  //                     );
+  //                     chosenIcon = value.icon;
+  //                   },
+  //                   value: initialCategoryItem,
+  //                   items: _listOfCategoryItems
+  //                       .map<DropdownMenuItem<CategoryItem>>(
+  //                     (CategoryItem value) {
+  //                       return DropdownMenuItem(
+  //                         value: value,
+  //                         child: Row(
+  //                           children: [
+  //                             value.icon,
+  //                             const SizedBox(
+  //                               width: 10,
+  //                             ),
+  //                             Text(
+  //                               value.name,
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       );
+  //                     },
+  //                   ).toList(),
+  //                 ),
+  //                 DropdownButton<BackgroundItem>(
+  //                   onChanged: (BackgroundItem? value) {
+  //                     setState(
+  //                       () {
+  //                         initialBackgroundItem = value!;
+  //                       },
+  //                     );
+  //                     backgroundColor = value!.iconColor;
+  //                   },
+  //                   value: initialBackgroundItem,
+  //                   items: _listOfBackgroundItems
+  //                       .map<DropdownMenuItem<BackgroundItem>>(
+  //                     (BackgroundItem value) {
+  //                       return DropdownMenuItem(
+  //                         value: value,
+  //                         child: Row(
+  //                           children: [
+  //                             CircleAvatar(
+  //                               backgroundColor: value.iconColor,
+  //                               radius: 13,
+  //                               child: const Padding(
+  //                                 padding: EdgeInsets.all(10),
+  //                               ),
+  //                             ),
+  //                             const SizedBox(
+  //                               width: 10,
+  //                             ),
+  //                             Text(
+  //                               value.title,
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       );
+  //                     },
+  //                   ).toList(),
+  //                 ),
+  //                 SizedBox(
+  //                   height: 33,
+  //                   width: 110,
+  //                   child: ElevatedButton.icon(
+  //                     onPressed: _submitData,
+  //                     icon: const Icon(
+  //                       Icons.upload,
+  //                     ),
+  //                     label: const Text(
+  //                       'Submit',
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //       // GestureDetector(
+  //       //   onTap: () {},
+  //       //   child:
+  //       //   behavior: HitTestBehavior.opaque,
+  //       // );
+  //     },
+  //   );
+  // }
+
+  // final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+
+  // final List<String> _chosenTile = ['To Do', 'Name', 'Settings'];
+
+  // void onClicked(String clickedText) {
+  //   setState(
+  //     () {
+  //       _drawerState[clickedText] = false;
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return ToDoScreen(
+      // showDialog: _s,
+      enteredName: enteredName,
+      enteredTitlee: enteredTitlee,
+      submitName: _submitName,
       addNewElement: _addNewElement,
       listOfToDo: _listOfToDo,
-      // showSnackBar: _showSnackBar,
+      // showSnackBar: _showSnackBar,s
       doneTd: _doneTd,
-      clicked: clicked,
+      // clicked: clicked,
     );
   }
 }

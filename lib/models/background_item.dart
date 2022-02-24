@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 class BackgroundItem {
   final String title;
-  Color icon_color;
+  Color initialColor;
+  Color chosenColor;
 
-  BackgroundItem(
-    this.title,
-    this.icon_color,
-  );
+  BackgroundItem(this.title, this.initialColor, this.chosenColor);
 }
