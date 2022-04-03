@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: const TextStyle(
                   fontSize: 20,
-                  fontFamily: 'GreatVibes',
+                  fontFamily: 'cambria',
                 ),
               ),
         ),

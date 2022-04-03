@@ -76,10 +76,6 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: GreatVibes
-      fonts:
-        - asset: assets/fonts/GreatVibes-Regular.otf
-        - weight: 700
     - family: Georgia
       fonts:
         - asset: assets/fonts/Georgia.ttf
@@ -114,6 +110,9 @@ flutter:
     - family: fira sans
       fonts:
         - asset: assets/fonts/FiraSans-Regular.ttf
+    - family: cambria
+      fonts:
+        - asset: assets/fonts/Cambria.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

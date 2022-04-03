@@ -55,7 +55,6 @@ class _ToDoScreenState extends State<ToDoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal[50],
       key: _scaffoldState,
       drawer: MainDrawer(
         widget.enteredName, widget.enteredTitlee,
@@ -63,17 +62,19 @@ class _ToDoScreenState extends State<ToDoScreen> {
         widget.submitName,
       ),
       resizeToAvoidBottomInset: false,
-      // appBar: AppBar(
-      //   title: const Text('To-do list',
-      //       style: TextStyle(
-      //         fontFamily: 'QuickSand',
-      //         fontWeight: FontWeight.bold,
-      //       )),
-      //   leading: IconButton(
-      //     onPressed: () => _addNewElement(context),
-      //     icon: const Icon(Icons.add),
-      //   ),
-      // ),
+      appBar: AppBar(
+        title: const Text(
+          'To-do list',
+          style: TextStyle(
+            fontFamily: 'QuickSand',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        // leading: IconButton(
+        //   onPressed: () => _addNewElement(context),
+        //   icon: const Icon(Icons.add),
+        // ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         width: 130,
@@ -150,7 +151,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Container(
-                      width: 160,
+                      width: MediaQuery.of(context).size.width * 0.4,
                       padding: const EdgeInsets.only(
                         right: 80,
                         top: 5,
@@ -167,7 +168,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 26,
-                                    fontFamily: 'Georgia',
+                                    fontFamily: 'cambria',
+                                    letterSpacing: 0.8,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -182,9 +184,11 @@ class _ToDoScreenState extends State<ToDoScreen> {
                             child: Text(
                               widget.enteredTitlee,
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'Georgia',
-                                  color: Colors.white),
+                                fontSize: 18,
+                                fontFamily: 'cambria',
+                                letterSpacing: 0.8,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ],

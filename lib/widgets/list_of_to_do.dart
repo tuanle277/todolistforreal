@@ -108,25 +108,27 @@ class _ListOfToDoState extends State<ListOfToDo> {
                                     // fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: 'Helvetica',
+                                    fontFamily: 'cambria',
                                     letterSpacing: 0.5,
                                   ),
                                 ),
                               ),
                               Container(
-                                margin: const EdgeInsets.only(left: 9),
+                                margin: const EdgeInsets.only(
+                                  left: 30,
+                                ),
                                 padding: EdgeInsets.only(
                                   top: 5,
                                   left: leftPaddingTitleAndDescription,
                                 ),
-                                width: 230,
+                                width: MediaQuery.of(context).size.width * 0.4,
                                 child: Text(
                                   widget._listOfToDo[index].description,
                                   style: TextStyle(
                                     color: Colors.grey[700],
                                     // fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    fontFamily: 'Helvetica',
+                                    fontSize: 14,
+                                    fontFamily: 'cambria',
                                   ),
                                 ),
                               ),
